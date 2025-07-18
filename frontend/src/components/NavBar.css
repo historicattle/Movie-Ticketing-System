@@ -1,0 +1,60 @@
+#navBar{
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    background: #D9D9D9;
+    height: 50px;
+}
+
+#mainDiv{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    padding: 0;
+    margin: 0;
+}
+
+#nameDiv{
+    min-width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-weight: 700;
+    color: black;
+}
+
+#optionsDiv{
+    padding: 0;
+    margin: 0;
+}
+
+#aboutLnk,#homeLnk,#signupLnk,#loginLnk{
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 50px;
+    color: black;
+    font-weight: bold;
+    border-radius: 0px;
+    background-color: #D9D9D9;
+    transition: background-color 0.1s ease-in-out;
+    display: inline-block;
+    line-height: 50px;
+    justify-content: center;
+}
+
+#aboutLnk:hover,#homeLnk:hover,#signupLnk:hover,#loginLnk:hover{
+    background-color: darkgray;
+}
+
+input{
+    margin:10px 0;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 5px;
+    color: #202022;
+}
