@@ -93,7 +93,3 @@ Suppose you want to add "see booking history":
 - **What's already done:** You can sign up, log in, see movies, and book basic tickets.
 - **What's left:** Fancy seat selection, payment, profile/history, admin panel, emails, better style.
 - **How to keep building:** Always add a backend "API" and a frontend "page or component" for every new thing you want!
-- **What to learn next:** Start with basic JavaScript, React, and Node.js! Play with code by changing tiny things and seeing what happens.
-
-**You don't need to know code yet—just follow this map, ask questions online, and you'll get there!**
-If ready to learn code, try adding a tiny feature (like a "hello" button) by reading through `frontend/src/pages/HomePage.jsx`. Each thing you do is like a new playground swing added!
