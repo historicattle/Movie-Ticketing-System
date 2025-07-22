@@ -1,26 +1,35 @@
-body{
-    background-color: #CACACA;
+body {
+    background: linear-gradient(135deg,#1A1C22,#5A5C6A,#A7A8B2);
     margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #container{
     margin: 50px auto;
-    background-color: #878787;
+    background: rgba(26,28,34,0.4);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(26, 28, 34,0.25);
     width: 500px;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    border-radius: 10px;
+    border-radius: 15px;
 }
 
 #container h1{
-    color: #202022;
+    color: transparent;
     padding: 5px;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 30px;
+    font-weight:700;
     align-items: center;
     justify-content: center;
     width: 100%;
+    background-image: linear-gradient(to right,#0e0725,#5c03bc,#e536ab,#f4e5f0);
+    background-clip: text;
+    
 }
 
 #container h3{
@@ -41,6 +50,7 @@ input{
     padding: 10px;
     border-radius: 7px;
     border: 2px transparent;
+    background-color: darkgray;
 }
 
 input:hover{
@@ -55,4 +65,21 @@ input:hover{
 
 button:hover{
     border: 2px solid white;
+}
+
+p{
+    padding: 10px;
+    background-color: #878787;
+}
+
+#signupLnk{
+    background-color: transparent;
+    color: #202022;
+    text-decoration: none;
+    padding: 0;
+}
+
+#signupLnk:hover{
+    background-color: transparent;
+    text-decoration: underline;
 }

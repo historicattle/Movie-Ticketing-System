@@ -24,10 +24,24 @@ h2,h3,p{
 
 .team-member{
     background-color: #D9D9D9;
-    border: 3px solid #CACACA;
+    border: 3px solid rgba(32, 32, 34, 0.1);
     border-radius: 15px;
-    padding: 10px;
+    padding: 20px;
     margin: 10px;
     width: 300px;
     text-align: center;
+    animation: transform 0.5s ease-in;
+    border-top: 2px solid linear-gradient(to right, #CACACA, #202022);
+}
+
+.team-member:hover {
+    transform: translateY(-10px);
+}
+
+p{
+    border-radius: 10px;
+    padding: 10px;
+    background-color: lightgray;
+    width: fit-content;
+    margin: 0 auto;
 }

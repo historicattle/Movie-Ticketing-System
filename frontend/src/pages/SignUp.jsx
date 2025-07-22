@@ -2,6 +2,8 @@ import './SignUp.css'
 
 function SignUp() {
     return (
+        <>
+        <title>SignUp</title>
         <div id="container">
             <h1>Create An Account</h1>
 
@@ -22,6 +24,7 @@ function SignUp() {
 
             <button id='submit'>SignUp</button>
         </div>
+        </>
     );
 }
 

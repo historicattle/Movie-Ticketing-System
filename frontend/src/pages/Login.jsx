@@ -14,7 +14,7 @@ function Login(){
                 <input type="password" placeholder="Enter your password" />
             </div>
             <button id='submit'>Login</button>
-            <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
+            <p>Don't have an account? <Link id='signupLnk' to="/signup">Sign Up</Link></p>
         </div>
     )
 }
