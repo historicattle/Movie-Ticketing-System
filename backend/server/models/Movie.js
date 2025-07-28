@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 
 const movieSchema = new mongoose.Schema(
   {
+    id: {
+      type: String,
+      required: true,
+      unique: true
+    },
     title: {
       type: String,
       required: true,
@@ -26,18 +31,17 @@ const movieSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    duration:{
-        type: Number,
-        required: true,
+    duration: {
+      type: Number,
+      required: true,
     },
-    availableseats:{
-        type: Number,
-        required: true,
-    }  
+    availableseats: {
+      type: Number,
+      required: true,
+    }
   },
   { timestamps: true }
 );
 
 const Movie = mongoose.model("Movie", movieSchema);
-
 export default Movie;
