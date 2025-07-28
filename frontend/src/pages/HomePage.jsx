@@ -1,9 +1,10 @@
-import './HomePage.css'
+import MovieCard from '../components/MovieCard'
+import '../styles/HomePage.css'
 
-function HomePage(){
+function HomePage() {
     return (
         <div>
-            Hello, World
+            <MovieCard/>
         </div>
     )
 }

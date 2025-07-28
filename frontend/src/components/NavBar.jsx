@@ -1,7 +1,7 @@
-import './NavBar.css'
+import '../styles/NavBar.css'
 import { Link } from 'react-router-dom';
 
-function NavBar(){
+function NavBar() {
     return (
         <nav id='navBar'>
             <div id="mainDiv">

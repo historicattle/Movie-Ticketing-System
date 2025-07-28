@@ -2,9 +2,8 @@ import axios from 'axios'
 
 const baseUrl="http://localhost:3000/api"
 
-// returns [name, movieId] of the movie
 export const movieList=()=>{
-    axios.get(`${baseUrl}/list`)
+    return axios.get(`${baseUrl}/movies`)
     .then((res)=>res.data)
 }
 
