@@ -1,5 +1,4 @@
 # BACKEND.md
-
 # Movie-Ticketing-System – Backend Documentation
 
 ## Table of Contents
@@ -23,6 +22,7 @@
 - [Business Logic Deep Dive](#business-logic-deep-dive)
 - [Database Layer (MongoDB + Mongoose)](#database-layer-mongodb--mongoose)
 - [Common Patterns & Practices](#common-patterns--practices)
+
 ---
 
 ## Introduction
@@ -50,14 +50,16 @@ backend/
 ## Setup & Environment
 
 ### Dependencies
-- **Node.js** with Express
-- **Mongoose** for MongoDB
-- **dotenv** for environment configs
-- **bcryptjs** for password hashing
-- **jsonwebtoken** for authentication
 
-### Environment variables needed (`.env`)
-```env
+• Node.js with Express
+• Mongoose for MongoDB
+• dotenv for environment configs
+• bcryptjs for password hashing
+• jsonwebtoken for authentication
+
+### Environment variables needed (.env)
+
+```
 PORT=3000
 MONGO_URI=mongodb://<your_mongo_db_url>
 JWT_SECRET=yourSuperSecretKey
@@ -65,66 +67,77 @@ JWT_SECRET=yourSuperSecretKey
 
 ## Backend Directory Structure
 
-- **controllers/**: Each controller file relates to a domain object (movie, user, booking, showtime) – handles the logic of requests.
-- **models/**: Each `.js` file here defines a *schema* (think: a recipe) for what a User, Movie, Booking, Showtime looks like in the database.
-- **middleware/**: Functions that check requests: authentication, validation, etc.
-- **routes/**: Each file connects HTTP endpoints to controller actions.
+• **controllers/**: Each controller file relates to a domain object (movie, user, booking, showtime) – handles the logic of requests.
+• **models/**: Each .js file here defines a schema (think: a recipe) for what a User, Movie, Booking, Showtime looks like in the database.
+• **middleware/**: Functions that check requests: authentication, validation, etc.
+• **routes/**: Each file connects HTTP endpoints to controller actions.
 
-## Server Entry Point: `index.js`
+## Server Entry Point: index.js
 
-Location: `backend/index.js`
+**Location**: `backend/index.js`
 
-```js
+```javascript
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import movieRoutes from "./routes/movieRoutes.js";
 
 dotenv.config();
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use("/api/movies", movieRoutes);
+
 // MongoDB connection left
 ```
 
 **Explanation:**
-- Loads dependencies, including config from `.env`.
-- Creates an Express app.
-- Sets middlewares: parses JSON.
-- Mounts all movie-related routes at `/api/movies`.
-- **(ToDo):** MongoDB connection (missing/marked as "left" in code, must complete).
+
+• Loads dependencies, including config from .env.
+• Creates an Express app.
+• Sets middlewares: parses JSON.
+• Mounts all movie-related routes at `/api/movies`.
+• (ToDo): MongoDB connection (missing/marked as "left" in code, must complete).
 
 ## Model Descriptions
 
 ### User Model
 
-File: `server/models/User.js`
+**File:** `server/models/User.js`
 
 Defines how a user is saved in the database.
-```js
+
+```javascript
 import mongoose from "mongoose";
-const userSchema = new mongoose.Schema(
-  {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    password: { type: String, required: [true, 'please enter your password'], minlength: 6 },
-    role: { type: String, enum: ["user", "admin"], default: "user" },
-  },
-  { timestamps: true }
-);
-const User = mongoose.model("User", userSchema);
-export default User;
+
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true, lowercase: true },
+  mobile_number: { type: String, unique: true },
+  password: { type: String, required: true, minlength: 6 },
+  is_verified: { type: Boolean, default: false },
+  is_active: { type: Boolean, default: true },
+  role: { type: String, enum: ["user", "admin"], default: "user" },
+  date_of_birth: Date,
+  city: String,
+  profile_picture: String,
+  preferences: Object
+}, { timestamps: true });
+
+export default mongoose.model("User", userSchema);
 ```
-- **Fields:** name, email (unique), password (hashed!), role (user/admin).
-- **`timestamps: true`**: automatically adds `createdAt` and `updatedAt`.
+
+*This block defines all required user properties including email/mobile login, password hash, and profile management.*
 
 ### Movie Model
 
-File: `server/models/Movie.js`
-```js
+**File:** `server/models/Movie.js`
+
+```javascript
 import mongoose from "mongoose";
+
 const movieSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
@@ -138,16 +151,20 @@ const movieSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
 const Movie = mongoose.model("Movie", movieSchema);
 export default Movie;
 ```
-- **Fields:** descriptive details and available seats for each movie.
+
+• **Fields**: descriptive details and available seats for each movie.
 
 ### Showtime Model
 
-File: `server/models/Showtime.js`
-```js
+**File:** `server/models/Showtime.js`
+
+```javascript
 const mongoose = require('mongoose');
+
 const showtimeSchema = new mongoose.Schema({
   movie: { type: mongoose.Schema.Types.ObjectId, ref: 'Movie', required: true },
   theater: { type: String, required: true },
@@ -156,25 +173,31 @@ const showtimeSchema = new mongoose.Schema({
   seats: { type: Number, required: true },
   availableSeats: { type: Number, required: true }
 }, { timestamps: true });
+
 module.exports = mongoose.model('Showtime', showtimeSchema);
 ```
-- **Links** each showtime to a Movie via a foreign key.
-- Saves location, available seats, and time details for each show.
+
+• Links each showtime to a Movie via a foreign key.
+• Saves location, available seats, and time details for each show.
 
 ### Booking Model
 
-File: `server/models/Booking.js`
-```js
+**File:** `server/models/Booking.js`
+
+```javascript
 const mongoose = require('mongoose');
+
 const bookingSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   showtime: { type: mongoose.Schema.Types.ObjectId, ref: 'Showtime', required: true },
   seats: { type: Number, required: true },
   status: { type: String, default: 'booked' }
 }, { timestamps: true });
+
 module.exports = mongoose.model('Booking', bookingSchema);
 ```
-- Tracks who booked which showtime and their seat count.
+
+• Tracks who booked which showtime and their seat count.
 
 ## Controllers Explained
 
@@ -185,88 +208,99 @@ Each controller handles logic for a domain.
 Handles user registration and login.
 
 **Signup:**
-- Receives name, email, password from request.
-- Checks if the email exists.
-- Hashes password with bcrypt.
-- Saves user to DB.
-- Generates JWT token (for authentication).
+
+• Receives name, email, password from request.
+• Checks if the email exists.
+• Hashes password with bcrypt.
+• Saves user to DB.
+• Generates JWT token (for authentication).
 
 **Login:**
-- Receives email, password.
-- Verifies credentials and compares password hash.
-- Issues JWT if successful.
+
+• Receives email, password.
+• Verifies credentials and compares password hash.
+• Issues JWT if successful.
 
 ### movieController.js
 
-CRUD (Create, Read, Update, Delete) for movies.
+**CRUD (Create, Read, Update, Delete) for movies.**
 
-- **Create**: Receive movie info → Save in DB.
-- **Read (getMovies)**: Fetches all movies.
-- **Read by ID (getMovieById)**: Retrieve one movie.
-- **Update**: Find movie by ID, apply changes.
-- **Delete**: Remove a movie from DB.
+• **Create**: Receive movie info → Save in DB.
+• **Read (getMovies)**: Fetches all movies.
+• **Read by ID (getMovieById)**: Retrieve one movie.
+• **Update**: Find movie by ID, apply changes.
+• **Delete**: Remove a movie from DB.
 
 ### showtimeController.js
 
-CRUD for showtimes:
-- **Create**: Require movieId, theater, date/time, etc.
-- **Get All**: Optional filters (movie, date, theater).
-- **Get by ID**: Gets one showtime.
-- **Update/Delete**: Admin features.
-- **Update available seats**: Booking system decrements available seats.
+**CRUD for showtimes:**
+
+• **Create**: Require movieId, theater, date/time, etc.
+• **Get All**: Optional filters (movie, date, theater).
+• **Get by ID**: Gets one showtime.
+• **Update/Delete**: Admin features.
+• **Update available seats**: Booking system decrements available seats.
 
 ### bookingController.js
 
 Handles the booking logic.
-- **Create**: User books seats for a showtime.
-- **Get**: List all bookings (with filters).
-- **Get by ID**: Individual booking detail.
-- **Update/Delete**: Admin or cancellation flows.
-- **Stats**: Total bookings, revenue, by status.
+
+• **Create**: User books seats for a showtime.
+• **Get**: List all bookings (with filters).
+• **Get by ID**: Individual booking detail.
+• **Update/Delete**: Admin or cancellation flows.
+• **Stats**: Total bookings, revenue, by status.
 
 ## Routes & API Endpoints
 
 Each resource (movies, users, bookings, showtimes) has a dedicated set of endpoints:
-- `/api/auth/` - User registration, login, etc.
-- `/api/movies/` - Movie CRUD
-- `/api/showtimes/` - Showtimes CRUD and seat updates
-- `/api/bookings/` - Seat booking CRUD
+
+• `/api/auth/` - User registration, login, etc.
+• `/api/movies/` - Movie CRUD
+• `/api/showtimes/` - Showtimes CRUD and seat updates
+• `/api/bookings/` - Seat booking CRUD
 
 Routes are connected to corresponding controller functions and use middlewares for request validation or authentication.
 
 ## Middlewares
 
-- **Authentication**: Checks headers for the JWT token, decodes user info.
-- **Validation**: Ensures data provided in requests match expected fields.
-- **Error Handling**: Catches & returns human-readable error messages.
+• **Authentication**: Checks headers for the JWT token, decodes user info.
+• **Validation**: Ensures data provided in requests match expected fields.
+• **Error Handling**: Catches & returns human-readable error messages.
 
 ## Business Logic Deep Dive
 
 #### Booking Flow Example
+
 1. User requests a booking (provides user ID, showtime ID, seats).
 2. Controller checks if enough seats are available.
 3. If yes, subtracts those seats from the showtime and creates a Booking entry.
 4. Returns confirmation/details to the user.
 
-**Prevents overbooking by always checking current seat availability in DB.**
+Prevents overbooking by always checking current seat availability in DB.
 
 ## Database Layer (MongoDB + Mongoose)
-- All data is stored as collections in MongoDB.
-- `mongoose.Schema` defines structure.
-- `ref:` enables relationships (e.g. Bookings store user & showtime IDs to reference users and shows).
+
+• All data is stored as collections in MongoDB.
+• `mongoose.Schema` defines structure.
+• `ref:` enables relationships (e.g. Bookings store user & showtime IDs to reference users and shows).
 
 ## Common Patterns & Practices
-- **Modularization**: Separation of logic into models, controllers, routes keeps code organized.
-- **Validation**: Always validate user input to block malformed requests.
-- **Atomic Updates**: For seats/booking transactions, always check the DB just before final save.
-- **Authentication**: Secure actions with JWT and middleware.
+
+• **Modularization**: Separation of logic into models, controllers, routes keeps code organized.
+• **Validation**: Always validate user input to block malformed requests.
+• **Atomic Updates**: For seats/booking transactions, always check the DB just before final save.
+• **Authentication**: Secure actions with JWT and middleware.
 
 ## Conclusion
 
 This backend is flexible and easy to extend:
-- Add new fields to schemas as needed.
-- Create new controllers/routes for added features (e.g. payments, notifications).
-- Use robust middlewares for authentication/validation.
-- Test endpoints with Postman or similar tools before deploying.
 
-*End of BACKEND.md*
+• Add new fields to schemas as needed.
+• Create new controllers/routes for added features (e.g. payments, notifications).
+• Use robust middlewares for authentication/validation.
+• Test endpoints with Postman or similar tools before deploying.
+
+---
+
+**End of BACKEND.md**
