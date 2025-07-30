@@ -13,6 +13,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/movies", movieRoutes);
 app.use("/api/showtimes", showtimeRoutes);
 app.use("/api/bookings", bookingRoutes);
+app.use("/api/search", moviesearchRoutes);
 
 mongoose.connect("mongodb://localhost:27017/movieapp", {
 //temporary
