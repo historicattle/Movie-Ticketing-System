@@ -10,3 +10,4 @@
 # Optional: If you ever create build folders
 /dist
 
+package.json

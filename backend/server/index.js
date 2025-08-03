@@ -2,8 +2,10 @@ import express from "express";
 import mongoose from "mongoose";
 import authRoutes from "./routes/authRoutes.js";
 import movieRoutes from "./routes/movieRoutes.js";
-import showtimeRoutes from "./routes/showtimeRoutes";
-import bookingRoutes from "./routes/bookingRoutes";
+import showtimeRoutes from "./routes/showtimeRoutes.js";
+import bookingRoutes from "./routes/bookingRoutes.js";
+import moviesearchRoutes from "./routes/moviesearchRoutes.js"; 
+
 
 const app = express();
 

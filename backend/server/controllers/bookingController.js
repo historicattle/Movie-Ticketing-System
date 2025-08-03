@@ -1,14 +1,11 @@
-const Booking = require('../models/Booking');
-const { validationResult } = require('express-validator');
+import Booking from '../models/Booking.js';
+import { validationResult } from 'express-validator';
 
 /**
  * Create a new booking
- * @route POST /api/bookings
- * @access Public
  */
-const createBooking = async (req, res) => {
+export const createBooking = async (req, res) => {
   try {
-    // Check for validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -28,7 +25,6 @@ const createBooking = async (req, res) => {
       bookingDate
     } = req.body;
 
-    // Create new booking
     const booking = new Booking({
       userId,
       movieId,
@@ -59,10 +55,8 @@ const createBooking = async (req, res) => {
 
 /**
  * Get all bookings with optional filtering
- * @route GET /api/bookings
- * @access Public
  */
-const getBookings = async (req, res) => {
+export const getBookings = async (req, res) => {
   try {
     const {
       userId,
@@ -74,17 +68,14 @@ const getBookings = async (req, res) => {
       sortOrder = 'desc'
     } = req.query;
 
-    // Build filter object
     const filter = {};
     if (userId) filter.userId = userId;
     if (movieId) filter.movieId = movieId;
     if (status) filter.status = status;
 
-    // Calculate pagination
     const skip = (page - 1) * limit;
     const sortOptions = { [sortBy]: sortOrder === 'desc' ? -1 : 1 };
 
-    // Execute query with filters, pagination, and sorting
     const bookings = await Booking.find(filter)
       .sort(sortOptions)
       .skip(skip)
@@ -93,7 +84,6 @@ const getBookings = async (req, res) => {
       .populate('movieId', 'title genre duration')
       .populate('showId', 'showTime theater screen');
 
-    // Get total count for pagination
     const totalBookings = await Booking.countDocuments(filter);
     const totalPages = Math.ceil(totalBookings / limit);
 
@@ -121,14 +111,11 @@ const getBookings = async (req, res) => {
 
 /**
  * Get a single booking by ID
- * @route GET /api/bookings/:id
- * @access Public
  */
-const getBookingById = async (req, res) => {
+export const getBookingById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Validate ObjectId format
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
       return res.status(400).json({
         success: false,
@@ -165,15 +152,12 @@ const getBookingById = async (req, res) => {
 
 /**
  * Update a booking
- * @route PUT /api/bookings/:id
- * @access Public
  */
-const updateBooking = async (req, res) => {
+export const updateBooking = async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
 
-    // Validate ObjectId format
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
       return res.status(400).json({
         success: false,
@@ -181,7 +165,6 @@ const updateBooking = async (req, res) => {
       });
     }
 
-    // Check for validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -191,24 +174,19 @@ const updateBooking = async (req, res) => {
       });
     }
 
-    // Remove immutable fields from updates
     delete updates._id;
     delete updates.__v;
     delete updates.createdAt;
 
-    // Add updated timestamp
     updates.updatedAt = new Date();
 
-    const booking = await Booking.findByIdAndUpdate(
-      id,
-      updates,
-      {
-        new: true,
-        runValidators: true
-      }
-    ).populate('userId', 'name email')
-     .populate('movieId', 'title genre')
-     .populate('showId', 'showTime theater');
+    const booking = await Booking.findByIdAndUpdate(id, updates, {
+      new: true,
+      runValidators: true
+    })
+      .populate('userId', 'name email')
+      .populate('movieId', 'title genre')
+      .populate('showId', 'showTime theater');
 
     if (!booking) {
       return res.status(404).json({
@@ -224,8 +202,7 @@ const updateBooking = async (req, res) => {
     });
   } catch (error) {
     console.error('Error updating booking:', error);
-    
-    // Handle validation errors
+
     if (error.name === 'ValidationError') {
       return res.status(400).json({
         success: false,
@@ -244,14 +221,11 @@ const updateBooking = async (req, res) => {
 
 /**
  * Delete a booking
- * @route DELETE /api/bookings/:id
- * @access Public
  */
-const deleteBooking = async (req, res) => {
+export const deleteBooking = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Validate ObjectId format
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
       return res.status(400).json({
         success: false,
@@ -268,11 +242,9 @@ const deleteBooking = async (req, res) => {
       });
     }
 
-    // Check if booking can be cancelled (e.g., not within 24 hours of show)
     const showTime = new Date(booking.showId?.showTime);
     const now = new Date();
-    const timeDiff = showTime.getTime() - now.getTime();
-    const hoursDiff = timeDiff / (1000 * 3600);
+    const hoursDiff = (showTime - now) / (1000 * 3600);
 
     if (hoursDiff < 24 && booking.status === 'confirmed') {
       return res.status(400).json({
@@ -303,10 +275,8 @@ const deleteBooking = async (req, res) => {
 
 /**
  * Get booking statistics
- * @route GET /api/bookings/stats
- * @access Public
  */
-const getBookingStats = async (req, res) => {
+export const getBookingStats = async (req, res) => {
   try {
     const stats = await Booking.aggregate([
       {
@@ -316,9 +286,7 @@ const getBookingStats = async (req, res) => {
           totalRevenue: { $sum: '$totalAmount' }
         }
       },
-      {
-        $sort: { count: -1 }
-      }
+      { $sort: { count: -1 } }
     ]);
 
     const totalBookings = await Booking.countDocuments();
@@ -348,13 +316,4 @@ const getBookingStats = async (req, res) => {
       error: error.message
     });
   }
-};
-
-module.exports = {
-  createBooking,
-  getBookings,
-  getBookingById,
-  updateBooking,
-  deleteBooking,
-  getBookingStats
 };

@@ -1,5 +1,5 @@
 import express from 'express';
-import { getMovieByTitle } from '../controllers/movieSearch';
+import { getMovieByTitle } from '../controllers/moviesearchController.js';
 
 const router = express.Router();
 

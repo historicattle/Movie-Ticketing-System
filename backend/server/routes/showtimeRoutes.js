@@ -1,20 +1,21 @@
-const express = require('express');
+import express from "express";
+import {createShowtime, getShowtimes, getShowtimeById,getShowtimesByMovieAndDate,updateShowtime,deleteShowtime,updateAvailableSeats} from "../controllers/showtimeController.js"; 
+
 const router = express.Router();
-const showtimeController = require('../controllers/showtimeController');
 
 // POST / - Create a new showtime
-router.post('/', showtimeController.createShowtime);
+router.post('/', createShowtime);
 
 // GET / - Get all showtimes
-router.get('/', showtimeController.getShowtimes);
+router.get('/', getShowtimes);
 
 // GET /:id - Get showtime by ID
-router.get('/:id', showtimeController.getShowtimeById);
+router.get('/:id', getShowtimeById);
 
 // PUT /:id - Update showtime by ID
-router.put('/:id', showtimeController.updateShowtime);
+router.put('/:id', updateShowtime);
 
 // DELETE /:id - Delete showtime by ID
-router.delete('/:id', showtimeController.deleteShowtime);
+router.delete('/:id', deleteShowtime);
 
-module.exports = router;
+export default router;

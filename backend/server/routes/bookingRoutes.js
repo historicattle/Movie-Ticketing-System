@@ -1,20 +1,22 @@
-const express = require('express');
+import express from 'express';
+import {createBooking,getBookings,getBookingById,updateBooking,deleteBooking,getBookingStats} from '../controllers/bookingController.js'; 
+
 const router = express.Router();
-const bookingController = require('../controllers/bookingController');
 
 // POST / - Create a new booking
-router.post('/', bookingController.createBooking);
+router.post('/', createBooking);
 
 // GET / - Get all bookings
-router.get('/', bookingController.getBookings);
+router.get('/', getBookings);
 
 // GET /:id - Get booking by ID
-router.get('/:id', bookingController.getBookingById);
+router.get('/:id', getBookingById);
 
 // PUT /:id - Update booking by ID
-router.put('/:id', bookingController.updateBooking);
+router.put('/:id', updateBooking);
 
 // DELETE /:id - Delete booking by ID
-router.delete('/:id', bookingController.deleteBooking);
+router.delete('/:id', deleteBooking);
 
-module.exports = router;
+export default router;
+
