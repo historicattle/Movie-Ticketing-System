@@ -1,30 +1,56 @@
-
-
-#movieContainer{
-    background-color: whitesmoke;
+#movieContainer {
+    background: transparent;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .movieCard {
-    width: 200px;
-    height: 300px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 220px;
+    height: 350px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(226, 232, 240, 0.3);
     overflow: hidden;
-    margin: 10px;
+    margin: 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.movieCard:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
 }
 
 .movieCard img {
     width: 100%;
-    height: 150px;
+    height: 200px;
     object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.movieCard:hover img {
+    transform: scale(1.05);
 }
 
 .movieCard h3 {
-    font-size: 1.2em;
-    margin: 10px 0;
+    font-size: 1.1em;
+    font-weight: 600;
+    margin: 15px 15px 8px 15px;
+    color: #2d3748;
+    line-height: 1.3;
 }
 
 .movieCard p {
-    font-size: 0.9em;
-    color: #555;
+    font-size: 0.85em;
+    color: #4a5568;
+    margin: 0 15px 15px 15px;
+    line-height: 1.4;
 }

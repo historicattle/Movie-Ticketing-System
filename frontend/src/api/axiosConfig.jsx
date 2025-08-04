@@ -21,3 +21,12 @@ export const getSeatPrice=(movieId,theatreId)=>{
     return axios.get(`${baseUrl}/price/${movieId}?theatreId=${theatreId}`)
     .then((res)=>res.data)
 }
+
+export const getMovieByName = (movieName) => {
+    return axios.get(`${baseUrl}/movies/search?name=${movieName}`)
+        .then((res) => res.data)
+        .catch((error) => {
+            console.error("Error fetching movie by name:", error);
+            throw error;
+        });
+}

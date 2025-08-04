@@ -6,6 +6,7 @@ import './styles/App.css'
 import SignUp from './pages/SignUp'
 import Login from './pages/Login'
 import MovieCard from './components/MovieCard'
+// import AdminPage from './pages/adminPage'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Route path='/About' element={<AboutPage />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<Login />} />
+        {/* <Route path='/admin' element={<AdminPage />} /> */}
       </Routes>
     </BrowserRouter>
   );

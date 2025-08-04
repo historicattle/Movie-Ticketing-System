@@ -1,61 +1,78 @@
-body{
-    background-color: #CACACA;
+body {
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
     margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 #wrapper {
     position: fixed;
     width: 100vw;
     height: 100vh;
-    background-color: whitesmoke;
-    top:0;
-    left:0;
+    background: transparent;
+    top: 0;
+    left: 0;
     z-index: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 80px 20px 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
 }
 
-h1{
-    color: #202022;
-    padding: 5px;
-    font-size: 50px;
-    font-weight: bold;
+h1 {
+    color: #2d3748;
+    padding: 20px;
+    font-size: 48px;
+    font-weight: 600;
     text-align: center;
+    margin-bottom: 20px;
+    margin-top: 0;
 }
 
-h2,h3,p{
-    color: #202022;
+h2,
+h3,
+p {
+    color: #4a5568;
 }
 
-.container{
+.container {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    margin-top: 20px;
+    align-items: stretch;
+    margin-top: 30px;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1200px;
 }
 
-.team-member{
-    background-color: lightgray;
-    border: 2px solid rgba(32, 32, 34, 0.1);
-    border-radius: 15px;
-    padding: 20px;
-    margin: 10px;
-    width: 300px;
+.team-member {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(226, 232, 240, 0.3);
+    border-radius: 20px;
+    padding: 30px;
+    margin: 0;
+    width: 280px;
     text-align: center;
-    animation: transform 1.5s ease-in;
-    border-top: 2px solid linear-gradient(to right, #CACACA, #202022);
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
 .team-member:hover {
-    transform: translateY(-10px);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
 }
 
-p{
-    border-radius: 10px;
-    padding: 10px;
-    background-color: lightgray;
+p {
+    border-radius: 12px;
+    padding: 15px 20px;
+    background: rgba(247, 250, 252, 0.8);
+    border: 1px solid rgba(226, 232, 240, 0.5);
     width: fit-content;
-    margin: 0 auto;
+    margin: 15px auto;
+    font-size: 14px;
+    line-height: 1.5;
 }

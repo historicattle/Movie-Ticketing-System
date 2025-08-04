@@ -13,8 +13,8 @@ function MovieCard() {
 					title: res.title,
 					description: res.description,
 					genre: res.genre,
-					language: res.language,
-					posterUrl: res.posterUrl
+					language: res.language
+					// posterUrl: res.posterUrl
 				}));
 				setMovies(formattedMovies);
 			}
@@ -40,5 +40,5 @@ function MovieCard() {
 		</>
 	)
 }
-
+		
 export default MovieCard
